@@ -25,7 +25,7 @@ r0=0.0;
 
 delta_t=1;
 sim_time=0.0;
-sim_term=10;
+sim_term=100;
 
 psi=psi0;theta=theta0;phi=phi0;
 u=u0;v=v0;w=w0;
@@ -83,5 +83,5 @@ while(sim_time<sim_term)
     alpha=atan2(w,u);
     beta=asin(v/Vm);
     
-    sim_time=sim_time+delta_t;
+    sim_time=sim_time+delta_t
 end

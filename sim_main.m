@@ -30,7 +30,7 @@ alpha=atan2(w,u);
 beta=asin(v/Vm);
 
 quat=quatUpdate(p,q,r,quat);
-[tpsi,stheta,tphi]=quat2attitude(quat);
+[tphi,stheta,tpsi]=quat2attitude(quat);
 psi=atan(tpsi);
 theta=asin(stheta);
 phi=atan(tphi);

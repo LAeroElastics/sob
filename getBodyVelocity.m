@@ -1,5 +1,5 @@
 function [next] = getBodyVelocity(velocity,rate,fa,Tbl)
-af=airframe()
+af=airframe();
 m=af.m;
 g0=9.8;
 p=rate(1);
