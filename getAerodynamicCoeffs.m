@@ -13,6 +13,12 @@ c_2v=af.refc/(2*af.dvda);
 b_2v=af.refb/(2*af.dvda);
 
 ap=loadAeroTable();
+alp=vlimit(ap.tbl_alp,alp);
+mach=vlimit(ap.tbl_mach,mach);
+del_e=vlimit(ap.tbl_del_e,del_e);
+del_a=vlimit(ap.tbl_del_a,del_a);
+del_r=vlimit(ap.tbl_del_r,del_r);
+
 %axial force
 ca=interp3(ap.tbl_del_e,ap.tbl_alp,ap.tbl_mach,ap.tbl_ca,del_e,alp,mach);
 caq=interp2(ap.tbl_mach,ap.tbl_alp,reshape(ap.tbl_caq,6,3),mach,alp);

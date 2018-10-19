@@ -23,9 +23,9 @@ p0=0.0;
 q0=0.0;
 r0=0.0;
 
-delta_t=0.1;
+delta_t=1;
 sim_time=0.0;
-sim_term=100.0;
+sim_term=10;
 
 psi=psi0;theta=theta0;phi=phi0;
 u=u0;v=v0;w=w0;
