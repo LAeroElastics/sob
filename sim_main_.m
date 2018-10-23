@@ -86,5 +86,8 @@ while(sim_time<sim_term)
     alpha=atan2(w,u);
     beta=asin(v/Vm);
     
+    alpha=0;
+    beta=0;
+    
     sim_time=sim_time+delta_t
 end
