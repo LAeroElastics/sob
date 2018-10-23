@@ -54,7 +54,6 @@ while(sim_time<sim_term)
     ft=getThrustForce(ft,theta);
     %�@�̂̍��͂����߂�
     [f,m]=getTotalForce(ft,fa,ma);
-    
     %�@�̉^��
     velocity=[u,v,w];
     rate=[p,q,r];
@@ -62,6 +61,10 @@ while(sim_time<sim_term)
     rate=getBodyRotation(rate,m);
     
     %%Update
+    %rate
+    p=p+rate(1)*delta_t;
+    q=q+rate(2)*delta_t;
+    r=r+rate(3)*delta_t;
     %velocity
     u=u+vel(1)*delta_t;
     v=v+vel(2)*delta_t;
@@ -71,13 +74,13 @@ while(sim_time<sim_term)
     y=y+v*delta_t;
     z=z+w*delta_t;
     %attitude
-    quat=att2quat(psi,theta,phi);
-    quat=quatUpdate(rate(1),rate(2),rate(3),quat);
-    [tpsi,stheta,tphi]=quat2attitude(quat);
-    psi=atan(tpsi); %����Ȃ�
-    theta=asin(stheta); %����Ȃ�
-    phi=atan(tphi); %����Ȃ�
-    TBL=local2body(psi,theta,phi); %@todo quat�������ɂ���
+    qq=ypr2quaternion(psi,theta,phi);
+    qq=qq+quatUpdate(qq,rate)*delta_t;
+    euler=quaternion2rpy(qq);
+    psi=euler(3); %����Ȃ�
+    theta=euler(2); %����Ȃ�
+    phi=euler(1); %����Ȃ�
+    TBL=quatrotate(qq,eye(3)); %@todo quat�������ɂ���
     %misc
     Vm=sqrt(u^2+v^2+w^2);
     alpha=atan2(w,u);

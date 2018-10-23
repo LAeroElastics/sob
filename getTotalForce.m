@@ -1,5 +1,5 @@
 function [f,m] = getTotalForce(ft,fa,ma)
-f=ft+fa;
+f=ft+fa';
 af=airframe();
 xcg=af.xcg;
 xeng=af.xeng; %�G���W����t�ʒux
