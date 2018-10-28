@@ -38,10 +38,18 @@ while(sp.simTime<sp.simTerm)
     moments=getAeroMoments(dp,coeff,af);
     %Composing Thrust Forces
     forces=forces+cp.thrust;
+    
+    %%debug
+    forces=[0.0 0.0 0.0];
+    %%debug
+    %%debug
+    moments=[0.0 0.0 0.0];
+    %%debug
+    
     %Velocity Update
     state.velocityVector=state.velocityVector+dv(state,forces,state.attitudeMatrix,af)*sp.deltaT;
     %Rate Update
-    state.bodyratevector=state.bodyrateVector+dr(state,moments,af)*sp.deltaT;
+    state.bodyrateVector=state.bodyrateVector+dr(state,moments,af)*sp.deltaT;
     %Position Update
     state.positionVector=state.positionVector+state.velocityVector*sp.deltaT;
     %Attitude Update
