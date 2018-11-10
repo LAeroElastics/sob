@@ -9,7 +9,7 @@ initState=initialize();
 
 sp.simTime=0.0;
 sp.deltaT=0.1;
-sp.simTerm=10;
+sp.simTerm=100;
 
 state.attitudeVector=initState.attitudeVector;
 state.attitudeMatrix=initState.attitudeMatrix;
@@ -20,6 +20,18 @@ state.bodyrateVector=initState.bodyrateVector;
 state.alp=initState.alp;
 state.bet=initState.bet;
 
+%initialize out matrix
+out.simtime=zeros(1,sp.simTerm/sp.deltaT);
+out.attitudeVector=zeros(1,3,(sp.simTerm/sp.deltaT));
+out.attitudeMatrix=zeros(3,3,(sp.simTerm/sp.deltaT));
+out.attitudeQuaternion=zeros(1,4,(sp.simTerm/sp.deltaT));
+out.velocityVector=zeros(1,3,(sp.simTerm/sp.deltaT));
+out.positionVector=zeros(1,3,(sp.simTerm/sp.deltaT));
+out.bodyrateVector=zeros(1,3,(sp.simTerm/sp.deltaT));
+out.alp=zeros(1,(sp.simTerm/sp.deltaT));
+out.bet=zeros(1,(sp.simTerm/sp.deltaT));
+
+i_OutMatrix=1;
 while(sp.simTime<sp.simTerm)
     %Control update
     cp=control();
@@ -43,7 +55,7 @@ while(sp.simTime<sp.simTerm)
     forces=[0.0 0.0 0.0];
     %%debug
     %%debug
-    moments=[0.0 0.0 0.0];
+    moments=[0.0 -0.001 0.001];
     %%debug
     
     %Velocity Update
@@ -60,5 +72,42 @@ while(sp.simTime<sp.simTerm)
     state.bet=asin(state.velocityVector(2)/norm(state.velocityVector));
     
     sp.simTime=sp.simTime+sp.deltaT;
-    disp(sp.simTime);
+    %disp(sp.simTime);
+    disp(state);
+    
+    out.simtime(:,i_OutMatrix)=sp.simTime;
+    out.attitudeVector(:,:,i_OutMatrix)=state.attitudeVector;
+    out.attitudeMatrix(:,:,i_OutMatrix)=state.attitudeMatrix;
+    out.attitudeQuaternion(:,:,i_OutMatrix)=state.attitudeQuaternion;
+    out.velocityVector(:,:,i_OutMatrix)=state.velocityVector;
+    out.positionVector(:,:,i_OutMatrix)=state.positionVector;
+    out.bodyrateVector(:,:,i_OutMatrix)=state.bodyrateVector;
+    out.alp(i_OutMatrix)=state.alp;
+    out.bet(i_OutMatrix)=state.bet;
+    i_OutMatrix=i_OutMatrix+1;
 end
+
+ifig=1;
+figure(ifig);
+plot(out.simtime(1,:),reshape(out.attitudeVector(1,1,:),1,1001));
+grid on;
+
+figure(ifig+1);
+plot(out.simtime(1,:),reshape(out.attitudeVector(1,2,:),1,1001));
+grid on;
+
+figure(ifig+2);
+plot(out.simtime(1,:),reshape(out.attitudeVector(1,3,:),1,1001));
+grid on;
+
+figure(ifig+3);
+plot(out.simtime(1,:),reshape(out.velocityVector(1,1,:),1,1001));
+grid on;
+
+figure(ifig+4);
+plot(out.simtime(1,:),reshape(out.velocityVector(1,2,:),1,1001));
+grid on;
+
+figure(ifig+5);
+plot(out.simtime(1,:),reshape(out.velocityVector(1,3,:),1,1001));
+grid on;
