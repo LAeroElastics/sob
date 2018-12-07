@@ -25,12 +25,12 @@ ca=interp3(ap.tbl_del_e,ap.tbl_alp,ap.tbl_mach,ap.tbl_ca,del_e,alp,mach);
 caq=interp2(ap.tbl_mach,ap.tbl_alp,reshape(ap.tbl_caq,6,3),mach,alp);
 coeff.ca=ca+c_2v*caq*q;
 %side force
-cyr=interp2(ap.tbl_mach,ap.tbl_alp,reshape(ap.tbl_cyr,6,3),mach,alp);
-cyp=interp2(ap.tbl_mach,ap.tbl_alp,reshape(ap.tbl_cyp,6,3),mach,alp);
-cyb=interp1(ap.tbl_mach,reshape(ap.tbl_cyb,3,1),mach);
-cyda=interp1(ap.tbl_mach,reshape(ap.tbl_cyda,3,1),mach);
-cydr=interp1(ap.tbl_mach,reshape(ap.tbl_cydr,3,1),mach);
-coeff.cy=cyb*bet+cyda*del_a+cydr*del_r+b_2v*(cyr*r+cyp*p);
+cyr=interp2(ap.tbl_mach,ap.tbl_alp,reshape(ap.tbl_cyr,6,3),mach,alp)
+cyp=interp2(ap.tbl_mach,ap.tbl_alp,reshape(ap.tbl_cyp,6,3),mach,alp)
+cyb=interp1(ap.tbl_mach,reshape(ap.tbl_cyb,3,1),mach)
+cyda=interp1(ap.tbl_mach,reshape(ap.tbl_cyda,3,1),mach)
+cydr=interp1(ap.tbl_mach,reshape(ap.tbl_cydr,3,1),mach)
+coeff.cy=cyb*bet+cyda*del_a+cydr*del_r+b_2v*(cyr*r+cyp*p)
 %normal force
 cz=interp3(ap.tbl_bet,ap.tbl_alp,ap.tbl_mach,ap.tbl_cz,alp,bet,mach);
 czde=interp2(ap.tbl_mach,ap.tbl_alp,reshape(ap.tbl_czde,6,3),mach,alp);
@@ -60,5 +60,6 @@ msa=sin(alp);
 coeff.cdrag=ca*mca-cz*msa;
 coeff.clift=ca*msa-cz*mca;
 coeff.ldratio=coeff.clift/coeff.cdrag;
+%disp(coeff);
 end
 

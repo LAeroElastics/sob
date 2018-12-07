@@ -8,8 +8,8 @@ addpath('./quaternion')
 initState=initialize();
 
 sp.simTime=0.0;
-sp.deltaT=0.1;
-sp.simTerm=100;
+sp.deltaT=1;
+sp.simTerm=10;
 
 state.attitudeVector=initState.attitudeVector;
 state.attitudeMatrix=initState.attitudeMatrix;
@@ -31,10 +31,18 @@ out.bodyrateVector=zeros(1,3,(sp.simTerm/sp.deltaT));
 out.alp=zeros(1,(sp.simTerm/sp.deltaT));
 out.bet=zeros(1,(sp.simTerm/sp.deltaT));
 
+%for debug
+tc=[1:sp.deltaT:sp.simTerm];
+ac=tc;
+ac(1:end)=3/57.3;
+
 i_OutMatrix=1;
 while(sp.simTime<sp.simTerm)
     %Control update
     cp=control();
+    
+    %state.alp=ac(i_OutMatrix);
+    
     %Airframe update
     af=airframe();
     %Aerodynamic Table update
@@ -50,14 +58,7 @@ while(sp.simTime<sp.simTerm)
     moments=getAeroMoments(dp,coeff,af);
     %Composing Thrust Forces
     forces=forces+cp.thrust;
-    
-    %%debug
-    forces=[0.0 0.0 0.0];
-    %%debug
-    %%debug
-    moments=[0.0 -0.001 0.001];
-    %%debug
-    
+
     %Velocity Update
     state.velocityVector=state.velocityVector+dv(state,forces,state.attitudeMatrix,af)*sp.deltaT;
     %Rate Update
