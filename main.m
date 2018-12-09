@@ -8,8 +8,8 @@ addpath('./quaternion')
 initState=initialize();
 
 sp.simTime=0.0;
-sp.deltaT=1;
-sp.simTerm=10;
+sp.deltaT=0.1;
+sp.simTerm=100;
 
 state.attitudeVector=initState.attitudeVector;
 state.attitudeMatrix=initState.attitudeMatrix;
@@ -68,13 +68,14 @@ while(sp.simTime<sp.simTerm)
     %Attitude Update
     state.attitudeQuaternion=state.attitudeQuaternion+quatUpdate(state.attitudeQuaternion,state.bodyrateVector)*sp.deltaT;
     %AOA Update
-    state.alp=atan2(state.velocityVector(3),state.velocityVector(1));
+    state.alp=atan(state.velocityVector(3)/state.velocityVector(1));
     %SLIP Update
     state.bet=asin(state.velocityVector(2)/norm(state.velocityVector));
     
     sp.simTime=sp.simTime+sp.deltaT;
     %disp(sp.simTime);
     disp(state);
+    %disp(moments);
     
     out.simtime(:,i_OutMatrix)=sp.simTime;
     out.attitudeVector(:,:,i_OutMatrix)=state.attitudeVector;
@@ -110,5 +111,8 @@ plot(out.simtime(1,:),reshape(out.velocityVector(1,2,:),1,1001));
 grid on;
 
 figure(ifig+5);
-plot(out.simtime(1,:),reshape(out.velocityVector(1,3,:),1,1001));
+plot(out.simtime(1,:),reshape(out.alp(1,3,:),1,1001));
 grid on;
+
+
+

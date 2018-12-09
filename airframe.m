@@ -1,10 +1,10 @@
 function af = airframe()
 %%airframe
 af.sRef=0.1;
-af.xcg=0.5;
+af.xcg=0.2;
 af.xcg_ref=0.5;
 af.m=100.0;
-af.I=[100 0 0;0 100 0;0 0 100];
+af.I=[100 0 0;0 10000 0;0 0 100];
 af.refa=1.0;
 af.refb=0.5;
 af.refc=0.5;
